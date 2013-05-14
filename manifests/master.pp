@@ -1,4 +1,10 @@
 class turtles::master {
+
+  service { 'pe-httpd':
+    ensure  => running,
+    entable => true,
+  }
+  
   Ini_setting {
     ensure  => present,
     notify  => Service['pe-httpd'],
