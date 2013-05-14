@@ -41,7 +41,7 @@ class turtles::master {
   
   file { '/etc/puppetlabs/puppet/config_version.sh':
     mode   => '0755',
-    source => 'puppet:///modules/saleseng/config_version.sh',
+    source => 'puppet:///modules/turtles/config_version.sh',
   }
 
   file { '/etc/puppetlabs/puppet/modules':
