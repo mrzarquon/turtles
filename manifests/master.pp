@@ -2,7 +2,7 @@ class turtles::master {
 
   service { 'pe-httpd':
     ensure  => running,
-    entable => true,
+    enable => true,
   }
   
   Ini_setting {
