@@ -1,10 +1,6 @@
-class turtles::master {
+class saleseng::master::puppet {
+  include saleseng
 
-  service { 'pe-httpd':
-    ensure  => running,
-    enable => true,
-  }
-  
   Ini_setting {
     ensure  => present,
     notify  => Service['pe-httpd'],
@@ -20,7 +16,7 @@ class turtles::master {
 
   ini_setting { 'main_modulepath':
     setting => 'modulepath',
-    value   => '/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
+    value   => '/modules:/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
   }
 
   ini_setting { 'main_manifestdir':
@@ -34,14 +30,26 @@ class turtles::master {
     require => File['/etc/puppetlabs/puppet/config_version.sh'],
   }
 
+  file { '/etc/puppetlabs/puppet/config_version.sh':
+    mode   => '0755',
+    source => 'puppet:///modules/saleseng/master/config_version.sh',
+  }
+
   file { '/etc/puppetlabs/puppet/autosign.conf':
     mode    => '0644',
     content => "*\n",
   }
-  
-  file { '/etc/puppetlabs/puppet/config_version.sh':
-    mode   => '0755',
-    source => 'puppet:///modules/saleseng/master/config_version.sh',
+
+  file { '/etc/puppetlabs/puppet/fileserver.conf':
+    ensure  => file,
+    content => template('saleseng/fileserver.conf.erb'),
+    mode    => '0644',
+  }
+
+  file { '/etc/puppetlabs/puppet/hiera.yaml':
+    ensure => file,
+    source => 'puppet:///modules/saleseng/master/hiera.yaml',
+    mode   => '0644',
   }
 
   file { '/etc/puppetlabs/puppet/modules':
