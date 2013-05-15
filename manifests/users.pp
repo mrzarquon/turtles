@@ -1,5 +1,9 @@
 class turtles::users {
 
+  $list_of_users = hiera('users_list')
+
+  create_resources('pe_accounts::user', $list_of_users)
+
   user { 'root':
     ensure   => present,
     password => '$1$f6lfMB7w$JkbGbJQ/mRmbN9FMSonYl1',
