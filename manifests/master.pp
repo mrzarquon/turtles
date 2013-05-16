@@ -76,14 +76,12 @@ class turtles::master (
     ensure  => file,
     source  => 'puppet:///modules/turtles/enable_port80.conf',
     mode    => 0755,
-    require => File['/opt/pe_autoinstall/html'],
     notify  => Service['pe-httpd'],
   }
 
   exec {'relocate_installer':
     command     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/puppet/var/www/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
     creates => "/opt/puppet/var/www/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
-    require => File['/opt/pe_autoinstall/html'],
   }
 
   #this should be updated to include the kickstart template class
