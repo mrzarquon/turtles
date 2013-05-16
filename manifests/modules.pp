@@ -5,7 +5,7 @@ class turtles::modules {
   	ensure   => present,
   	provider => git,
   	source   => 'git://github.com/puppetlabs-seteam/puppet-module-profile.git',
-    revision => '5bc24b1764f66bbb6a24fd1ae5be7b345c504f76',
+    revision => '8d9c28a4096105604a28009362965ab221c8a7d6',
   }
 
   vcsrepo { '/etc/puppetlabs/puppet/environments/production/turtles/':
