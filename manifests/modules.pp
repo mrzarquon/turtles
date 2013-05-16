@@ -9,7 +9,7 @@ class turtles::modules {
   }
 
   vcsrepo { '/etc/puppetlabs/puppet/environments/production/turtles/':
-  	ensure => latest,
+  	ensure => present,
   	provider => git,
   	source => 'git://github.com/mrzarquon/turtles.git',
   }
