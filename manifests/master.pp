@@ -80,14 +80,9 @@ class turtles::master (
     notify  => Service['pe-httpd'],
   }
 
-  file {'/opt/pe_autoinstall/html':
-    ensure => directory,
-    mode   => 755,
-  }
-
   exec {'relocate_installer':
-    command     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
-    creates => "/opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
+    command     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/puppet/var/www/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
+    creates => "/opt/puppet/var/www/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
     require => File['/opt/pe_autoinstall/html'],
   }
 
