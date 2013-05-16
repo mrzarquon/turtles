@@ -1,4 +1,10 @@
-class turtles::master {
+# this module makes configuration changes to the master so it can accept autosign connections from agents
+# and other tasks to help automate the building of systems
+
+class turtles::master (
+  $master_fqdn = "puppet.smf.company.lan",
+  $region_regex = "*.smf.company.lan",
+) {
 
   service { 'pe-httpd':
     ensure  => running,
@@ -36,7 +42,7 @@ class turtles::master {
 
   file { '/etc/puppetlabs/puppet/autosign.conf':
     mode    => '0644',
-    content => "*\n",
+    content => "*.smf.company.lan\n*.aus.company.lan\n",
   }
   
   file { '/etc/puppetlabs/puppet/config_version.sh':
@@ -55,4 +61,34 @@ class turtles::master {
     target => '/etc/puppetlabs/puppet/environments/production/manifests',
     force  => true,
   }
+  
+  file {'/etc/puppetlabs/puppet/hiera.yaml':
+    ensure => file,
+    source => 'puppet:///modules/turtles/hiera.yaml',
+    mode   => 0755,
+  }
+
+
+  #this enables the puppet master to serve out agent kickstarts
+  file {'/etc/puppetlabs/httpd/conf.d/enable_port80.conf':
+    ensure  => file,
+    source  => 'puppet:///modules/turtles/enable_port80.conf',
+    mode    => 0755,
+    require => File['/opt/pe_autoinstall/html'],
+    notify  => Service['pe-httpd'],
+  }
+
+  file {'/opt/pe_autoinstall/html':
+    ensure => directory,
+    mode   => 755,
+  }
+
+  exec {'relocate_installer':
+    cmd     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
+    creates => "/opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
+    require => File['/opt/pe_autoinstall/html'],
+  }
+
+  #this should be updated to include the kickstart template class
+
 }
