@@ -15,7 +15,7 @@ class turtles::modules {
   }
 
   vcsrepo { '/etc/puppetlabs/puppet/environments/production/tomcat/':
-  	ensure => latest,
+  	ensure => present,
   	provider => git,
   	source => 'git://github.com/puppetlabs-seteam/puppet-module-tomcat.git',
   }
