@@ -86,7 +86,7 @@ class turtles::master (
   }
 
   exec {'relocate_installer':
-    cmd     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
+    command     => "/bin/mv /opt/pe_autoinstall/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz /opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
     creates => "/opt/pe_autoinstall/html/puppet-enterprise-2.8.1-el-6-x86_64.tar.gz",
     require => File['/opt/pe_autoinstall/html'],
   }
