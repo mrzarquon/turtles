@@ -6,6 +6,8 @@ class turtles::master (
   $region_regex = "*.smf.company.lan",
 ) {
 
+  include turtles::modules
+
   service { 'pe-httpd':
     ensure  => running,
     enable => true,
